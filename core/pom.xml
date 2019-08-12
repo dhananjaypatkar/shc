@@ -170,6 +170,49 @@
           </execution>
         </executions>
       </plugin>
+      
+      <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>3.1.0</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<filters>
+							    <filter>
+							        <artifact>*:*</artifact>
+							        <excludes>
+							            <exclude>META-INF/*.SF</exclude>
+							            <exclude>META-INF/*.DSA</exclude>
+							            <exclude>META-INF/*.RSA</exclude>
+							            <exclude>META-INF/LICENSE</exclude>
+							            <exclude>LICENSE</exclude> <!--if this is same as above, not required-->
+							            <exclude>/*.png</exclude>
+							            <exclude>/*.html</exclude>
+							            <exclude>/*.jpeg</exclude>
+							        </excludes>
+							    </filter>
+							</filters>
+							<minimizeJar>false</minimizeJar>
+							<shadedArtifactAttached>true</shadedArtifactAttached>
+							<artifactSet>
+								<excludes>
+									<exclude>org.apache.spark:**</exclude>
+									<exclude>org.scala-lang:scala-library:*</exclude>
+									<exclude>org.scala-lang:scala-reflect:*</exclude>
+									<exclude>org.scala-lang.modules:scala-parser-combinators_2.11:*</exclude>
+									<exclude>org.scala-lang.modules:scala-xml_2.11:*</exclude>
+								</excludes>
+							</artifactSet>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+      
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-clean-plugin</artifactId>
