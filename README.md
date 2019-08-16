@@ -79,6 +79,26 @@ The following illustrates the basic procedure on how to use the connector. For m
          
 The above defines a schema for a HBase table with name as table1, row key as key and a number of columns (col1-col8). Note that the rowkey also has to be defined in details as a column (col0), which has a specific cf (rowkey).
 
+If we plan to read data written via Apache Phoenix, then you need to specify "tableCoder" property on catalog as below
+     
+     def catalog = s"""{
+            |"table":{"namespace":"default", "name":"table1", "tableCoder":"Phoenix"},
+            |"rowkey":"key",
+            |"columns":{
+              |"col0":{"cf":"rowkey", "col":"key", "type":"string"},
+              |"col1":{"cf":"cf1", "col":"col1", "type":"boolean"},
+              |"col2":{"cf":"cf2", "col":"col2", "type":"double"},
+              |"col3":{"cf":"cf3", "col":"col3", "type":"float"},
+              |"col4":{"cf":"cf4", "col":"col4", "type":"int"},
+              |"col5":{"cf":"cf5", "col":"col5", "type":"bigint"},
+              |"col6":{"cf":"cf6", "col":"col6", "type":"smallint"},
+              |"col7":{"cf":"cf7", "col":"col7", "type":"string"},
+              |"col8":{"cf":"cf8", "col":"col8", "type":"tinyint"},
+              |"col9":{"cf":"cf9", "col":"col9", "type":"date"},
+              |"col10":{"cf":"cf10", "col":"col10", "type":"timestamp"}
+            |}
+          |}""".stripMargin
+
 ### Write to HBase table to populate data
 
     sc.parallelize(data).toDF.write.options(
